@@ -11,7 +11,23 @@ Android 17, One UI 9. Display, SoC and RAM figures match
 [GSMArena](https://www.gsmarena.com/samsung_galaxy_z_fold_wide_5g-14673.php) (2026-10-14).
 
 - Inner display 7.6", 2448x1848 (4:3, about 404 ppi). Cover display 5.5", 1248x1972 (428 ppi).
-  120 Hz LTPO AMOLED. The panel's natural orientation is **to measure**.
+  120 Hz LTPO AMOLED on both displays. The panel's natural orientation is **to measure**.
+- Samsung's own specification page (samsung.com/tr, Galaxy Z Fold8, "Özellikler" tab, read
+  2026-10-14) lists:
+
+  | | Main display | Cover display |
+  |---|---|---|
+  | Size | 193.2 mm (7.6") | 138.4 mm (5.5") |
+  | Resolution | 1848 x 2448 (QXGA+) | 1972 x 1248 (WUXGA+) |
+  | Technology | Dynamic AMOLED 2X | Dynamic AMOLED 2X |
+  | Colour depth | 16M | 16M |
+  | Max refresh rate | 120 Hz | 120 Hz (stated by the owner of the page screenshots; Samsung's regional pages describe both displays as 120 Hz) |
+
+  Samsung writes the main display as 1848 x 2448 and the cover display with the long edge first
+  (1972 x 1248), while GSMArena writes 2448 x 1848 and 1248 x 1972. The pixel counts agree
+  between the two sources. Neither says which way the panel is mounted, so the natural
+  orientation stays **to measure** on a device. One other source quoted 1848 x 2338 for the main
+  display; Samsung's page does not support that figure.
 - Snapdragon 8 Elite Gen 5 for Galaxy (SM8850-AC: 2 x 4.74 GHz + 6 x 3.63 GHz Oryon), Adreno 840v2,
   LPDDR5X, UFS 4.0. Graphite cooling, so long loads throttle hard (reports range from 43% to 71% of
   peak). **to measure** on this build.
