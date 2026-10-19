@@ -300,6 +300,7 @@ public final class LinuxRuntimeInstaller {
                 RuntimeFileTree.delete(staging, null);
                 return false;
             }
+            FileUtils.writeString(new File(staging, CARRY_MARKER), "1");
 
             java.util.List<String> carried;
             try {
@@ -309,6 +310,7 @@ public final class LinuxRuntimeInstaller {
                 if (old.isDirectory() && !old.renameTo(root))
                     Log.w(TAG, "could not restore the previous runtime; retained at " + old);
                 if (e.getSuppressed().length == 0) {
+                    new File(staging, CARRY_MARKER).delete();
                     try { RuntimeFileTree.delete(staging, null); }
                     catch (IOException cleanup) { Log.w(TAG, "could not clear the failed staging tree", cleanup); }
                 } else {
@@ -319,12 +321,15 @@ public final class LinuxRuntimeInstaller {
 
             if (!staging.renameTo(root)) {
                 if (old.isDirectory()) {
-                    try { RuntimeFileTree.carryBack(staging, old, carried); }
-                    catch (IOException e) { Log.w(TAG, "could not move all user data back after a failed swap", e); }
+                    try {
+                        RuntimeFileTree.carryBack(staging, old, carried);
+                        new File(staging, CARRY_MARKER).delete();
+                    } catch (IOException e) { Log.w(TAG, "could not move all user data back after a failed swap", e); }
                     old.renameTo(root);
                 }
                 return false;
             }
+            new File(root, CARRY_MARKER).delete();
             discard(old, null);
             return LinuxRuntime.isInstalled(context);
         } catch (Exception e) {
@@ -335,11 +340,14 @@ public final class LinuxRuntimeInstaller {
         }
     }
 
+    static final String CARRY_MARKER = ".droiddeck-carry";
+
     static void recoverInterruptedSwap(File root, File staging, File old) throws IOException {
         if (!root.isDirectory() && old.isDirectory()) {
             if (!old.renameTo(root)) throw new IOException("Cannot restore the previous runtime at " + old);
             Log.w(TAG, "restored the previous runtime after an interrupted update");
         }
+        if (!RuntimeFileTree.exists(new File(staging, CARRY_MARKER).toPath())) return;
         File target = root.isDirectory() ? root : old;
         File stagedHome = new File(staging, USER_DATA);
         File home = new File(target, USER_DATA);
@@ -353,6 +361,7 @@ public final class LinuxRuntimeInstaller {
         }
         if (staging.isDirectory() && RuntimeFileTree.hasUserData(staging, target))
             throw new IOException("User data still needs recovery from " + staging);
+        new File(staging, CARRY_MARKER).delete();
     }
 
     static final String TRASH = ".runtime-trash";
