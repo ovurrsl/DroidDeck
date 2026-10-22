@@ -2012,7 +2012,7 @@ class SessionActivity : ComponentActivity(), SurfaceHolder.Callback {
         if (drawerOpen) {
             if (fromController && (event.keyCode == KeyEvent.KEYCODE_BUTTON_L1 || event.keyCode == KeyEvent.KEYCODE_BUTTON_R1)) {
                 if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
-                    drawerPage = sessionDrawerPages(SessionState.mode == SessionService.MODE_STEAM && secondScreenDisplays.isNotEmpty(), glasses.present)
+                    drawerPage = sessionDrawerPages(secondScreenDisplays.isNotEmpty(), glasses.present)
                         .step(drawerPage, if (event.keyCode == KeyEvent.KEYCODE_BUTTON_R1) 1 else -1)
                     releaseDrawerDirection()
                 }
@@ -3418,7 +3418,7 @@ class SessionActivity : ComponentActivity(), SurfaceHolder.Callback {
 
     private fun finishFlooded() {
         if (isFinishing) return
-        val signal = com.droiddeck.launcher.ui.Themes.byId(SessionPrefs.theme(this)).signal
+        val signal = com.droiddeck.launcher.ui.Themes.current(this).signal
         com.droiddeck.launcher.ui.QuitFlood.mark(signal.toArgb())
         window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(signal.toArgb()))
         quitFlooded = true
@@ -3449,7 +3449,7 @@ class SessionActivity : ComponentActivity(), SurfaceHolder.Callback {
 
     private fun completeLeave() {
         if (isFinishing) return
-        val signal = com.droiddeck.launcher.ui.Themes.byId(SessionPrefs.theme(this)).signal
+        val signal = com.droiddeck.launcher.ui.Themes.current(this).signal
         com.droiddeck.launcher.ui.QuitFlood.mark(signal.toArgb())
         window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(signal.toArgb()))
         quitFlooded = true
